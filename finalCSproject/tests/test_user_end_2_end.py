@@ -2,7 +2,7 @@ import pytest
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from tests.sample_user_data import SAMPLE_USERS
+from tests.sample_user_data import sample_users
 from models.User_Model import User_Model
 
 BASE_URL = "http://localhost:5000/users"
@@ -18,14 +18,14 @@ def reset_database():
     User_Model.initialize_DB("closetappDB.db")
     for user in User_Model.get_all():
         User_Model.remove(user['username'])
-    for u in SAMPLE_USERS:
+    for u in sample_users:
         User_Model.create(u)
 
 def test_user_index_page(browser):
     browser.get(BASE_URL)
     time.sleep(1)
     usernames = [elem.text for elem in browser.find_elements(By.TAG_NAME, "a") if elem.text]
-    for u in SAMPLE_USERS:
+    for u in sample_users:
         assert u['username'] in usernames
 
 def test_create_user(browser):
@@ -40,9 +40,9 @@ def test_create_user(browser):
 
 def test_view_user_details(browser):
     browser.get(BASE_URL)
-    browser.find_element(By.LINK_TEXT, SAMPLE_USERS[0]['username']).click()
+    browser.find_element(By.LINK_TEXT, sample_users[0]['username']).click()
     time.sleep(1)
-    assert SAMPLE_USERS[0]['email'] in browser.page_source
+    assert sample_users[0]['email'] in browser.page_source
 
 def test_edit_user(browser):
     browser.get(BASE_URL)
