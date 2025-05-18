@@ -3,7 +3,7 @@ import os
 from models.Clothes_Model import Clothes_Model
 from tests.sample_clothes_data import sample_clothes
 
-DB_PATH = "data/closetappDB.db"
+DB_PATH = "models/closetappDB.db"
 
 @pytest.fixture(autouse=True)
 def setup_and_teardown():

@@ -38,3 +38,9 @@ def edit(user_id):
         User_Model.update(updated)
         return redirect(url_for('user_routes.index'))
     return render_template('user/edit.html', user=user)
+
+@user_routes.route('/users/delete/<string:username>', methods=['POST'])
+def delete_user(username):
+    # Optional: Only allow deletion if logged-in user matches or is admin
+    User_Model.remove(username)
+    return redirect(url_for('user_routes.index'))  # Or homepage

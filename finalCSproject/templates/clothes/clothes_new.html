@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Add Clothes{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Add New Clothes</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input name="name" class="form-control" id="name" required />
+        </div>
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <input name="type" class="form-control" id="type" required />
+        </div>
+        <div class="mb-3">
+            <label for="photo" class="form-label">Photo</label>
+            <input type="file" name="photo" class="form-control" id="photo" />
+        </div>
+        <button type="submit" class="btn btn-success">Add Clothes</button>
+        <a href="{{ url_for('clothes.list_clothes') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

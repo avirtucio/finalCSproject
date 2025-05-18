@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Clothes Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ clothes['name'] }}</h1>
+    <p>Type: {{ clothes['type'] }}</p>
+    {% if clothes['photo'] %}
+        <img src="data:image/png;base64,{{ clothes['photo'] | b64encode }}" alt="Clothes Photo" class="img-thumbnail" style="max-width:300px;" />
+    {% endif %}
+    <div class="mt-3">
+        <a href="{{ url_for('clothes.edit_clothes', id=clothes['id']) }}" class="btn btn-primary">Edit</a>
+        <form method="post" action="{{ url_for('clothes.delete_clothes', id=clothes['id']) }}" style="display:inline;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+        </form>
+        <a href="{{ url_for('clothes.list_clothes') }}" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+{% endblock %}

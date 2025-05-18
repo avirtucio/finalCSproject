@@ -1,0 +1,14 @@
+<!-- /templates/base.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Digital Closet{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body>
+    <div class="container mt-4">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

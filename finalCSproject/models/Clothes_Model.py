@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 class Clothes_Model:
-    DB_PATH = "data/closetappDB.db"
+    DB_PATH = "models/closetappDB.db"
 
     @classmethod
     def initialize_DB(cls, DB_name):
@@ -77,3 +77,4 @@ class Clothes_Model:
             cursor = conn.cursor()
             cursor.execute("DELETE FROM clothes WHERE id=?", (id,))
             conn.commit()
+

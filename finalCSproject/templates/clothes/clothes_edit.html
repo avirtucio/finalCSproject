@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Edit Clothes{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Edit {{ clothes['name'] }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input name="name" class="form-control" id="name" value="{{ clothes['name'] }}" required />
+        </div>
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <input name="type" class="form-control" id="type" value="{{ clothes['type'] }}" required />
+        </div>
+        <div class="mb-3">
+            <label for="photo" class="form-label">Photo</label>
+            <input type="file" name="photo" class="form-control" id="photo" />
+            {% if clothes['photo'] %}
+                <p>Current photo:</p>
+                <img src="data:image/png;base64,{{ clothes['photo'] | b64encode }}" alt="Clothes Photo" class="img-thumbnail" style="max-width:300px;" />
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{{ url_for('clothes.get_clothes', id=clothes['id']) }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

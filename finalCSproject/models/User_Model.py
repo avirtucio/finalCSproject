@@ -16,6 +16,18 @@ class User_Model: #tetstees
             )''')
             conn.commit()
 
+        with sqlite3.connect(cls.DB_PATH) as conn:
+            c = conn.cursor()
+            c.execute('''
+                CREATE TABLE IF NOT EXISTS closets (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    clothes_list TEXT DEFAULT '[]',
+                    user_id INTEGER UNIQUE,
+                    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+                )
+            ''')
+            conn.commit()
+
     @classmethod
     def exists(cls, identifier):
         with sqlite3.connect(cls.DB_PATH) as conn:
@@ -29,14 +41,29 @@ class User_Model: #tetstees
     @classmethod
     def create(cls, user_info):
         with sqlite3.connect(cls.DB_PATH) as conn:
-            cursor = conn.cursor()
-            cursor.execute("""
-                INSERT INTO users (username, email, password)
-                VALUES (?, ?, ?)
-            """, (user_info["username"], user_info["email"], user_info["password"]))
-            conn.commit()
-            user_info["id"] = cursor.lastrowid
-            return user_info
+            try:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO users (username, email, password)
+                    VALUES (?, ?, ?)
+                """, (user_info["username"], user_info["email"], user_info["password"]))
+                conn.commit()
+                user_info["id"] = cursor.lastrowid
+                user_id = cursor.lastrowid
+
+                # Create closet linked to this user
+                closet_name = f"{user_info['username']}'s Closet"
+                cursor.execute('INSERT INTO closets (user_id, clothes_list) VALUES (?, ?)',
+                            (user_id, '[]'))
+
+                conn.commit()
+                return user_info
+                # return {"id": user_id, **user_info}
+
+            except Exception as e:
+                conn.rollback()
+                raise e
+                
 
     @classmethod
     def get(cls, identifier):
