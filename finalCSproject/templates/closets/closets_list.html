@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>All Closets</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Closet ID</th>
+                <th>User ID</th>
+                <th>Clothes List</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for closet in closets %}
+            <tr>
+                <td>{{ closet.id }}</td>
+                <td>{{ closet.user_id }}</td>
+                <td>{{ closet.clothes_list }}</td>
+                <td><a href="{{ url_for('closets_bp.user_closet', user_id=closet.user_id) }}" class="btn btn-primary">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

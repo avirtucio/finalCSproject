@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Closet for User ID: {{ closet.user_id }}</h2>
+    <ul>
+        {% for clothes_id in closet.clothes_list %}
+        <li>Clothes ID: {{ clothes_id }}</li>
+        {% endfor %}
+    </ul>
+    <form method="post" action="{{ url_for('closets_bp.add_item', user_id=closet.user_id) }}">
+        <div class="form-group">
+            <label for="clothes_id">Add Clothes by ID:</label>
+            <input type="number" id="clothes_id" name="clothes_id" required class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Add</button>
+    </form>
+    <a href="{{ url_for('closets_bp.list_closets') }}" class="btn btn-secondary mt-3">Back to all closets</a>
+</div>
+{% endblock %}
