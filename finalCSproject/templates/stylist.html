@@ -57,8 +57,7 @@
             <h4 class="card-title">Create New Outfit</h4>
             <form action="{{ url_for('outfits.create_outfit') }}" method="POST">
                 <div class="mb-3">
-                    <label for="user_id" class="form-label">User ID</label>
-                    <input type="number" class="form-control" id="user_id" name="user_id" value="{{ user.id }}" required>
+                    <input type="hidden" class="form-control" id="user_id" name="user_id" value="{{ user.id }}" required>
                 </div>
                 <div class="mb-3">
                     <label for="outfit_name" class="form-label">Outfit Name</label>
