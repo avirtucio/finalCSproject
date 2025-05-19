@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Create Outfit{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h1>Create New Outfit</h1>
+  <form method="POST" action="{{ url_for('outfits.create_outfit') }}">
+    <div class="mb-3">
+      <label for="name" class="form-label">Outfit Name</label>
+      <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+      <label for="user_id" class="form-label">User ID</label>
+      <input type="number" class="form-control" id="user_id" name="user_id" required>
+    </div>
+    <div class="mb-3">
+      <label for="clothes_list" class="form-label">Clothes List (comma-separated IDs)</label>
+      <input type="text" class="form-control" id="clothes_list" name="clothes_list">
+      <div class="form-text">Example: 1,2,3</div>
+    </div>
+    <button type="submit" class="btn btn-success">Create Outfit</button>
+    <a href="{{ url_for('outfits.list_outfits') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

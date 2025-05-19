@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Outfits List{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h1>Outfits</h1>
+  <a href="{{ url_for('outfits.create_outfit') }}" class="btn btn-primary mb-3">Create New Outfit</a>
+  {% if outfits %}
+    <div class="list-group">
+      {% for outfit in outfits %}
+      <a href="{{ url_for('outfits.outfit_detail', outfit_id=outfit.id) }}" class="list-group-item list-group-item-action">
+        <h5 class="mb-1">{{ outfit.name }}</h5>
+        <small>User ID: {{ outfit.user_id }}</small>
+      </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No outfits found.</p>
+  {% endif %}
+</div>
+{% endblock %}
