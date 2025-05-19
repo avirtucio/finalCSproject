@@ -22,7 +22,7 @@ def create():
             "password": request.form['password']
         }
         User_Model.create(data)
-        return redirect(url_for('user_routes.index'))
+        return redirect(url_for('login'))
     return render_template('user/create.html')
 
 @user_routes.route('/<int:user_id>/edit', methods=['GET', 'POST'], endpoint='edit')
@@ -36,11 +36,11 @@ def edit(user_id):
             "password": request.form['password']
         }
         User_Model.update(updated)
-        return redirect(url_for('user_routes.index'))
+        return redirect(url_for('home'))
     return render_template('user/edit.html', user=user)
 
 @user_routes.route('/users/delete/<string:username>', methods=['POST'])
 def delete_user(username):
     # Optional: Only allow deletion if logged-in user matches or is admin
     User_Model.remove(username)
-    return redirect(url_for('user_routes.index'))  # Or homepage
+    return redirect(url_for('logout'))  # Or homepage

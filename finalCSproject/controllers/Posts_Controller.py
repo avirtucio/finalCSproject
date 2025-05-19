@@ -37,7 +37,7 @@ def create_post():
         'visibility': visibility
     }
     post = Posts_Model.create(post_data)
-    return redirect(url_for('posts.view_post', post_id=post['id']))
+    return redirect(url_for('home', post_id=post['id']))
 
 @posts_bp.route('/posts/<int:post_id>', methods=['GET'])
 def view_post(post_id):

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home – Digital Closet</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Digital Closet</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('closet') }}">Closet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('stylist') }}">Stylist</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{{ url_for('logout') }}" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-link nav-link" style="padding: 0;">Logout</button>
+                        </form>
+                    </li>
+                </ul>                
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- Search Bar -->
+        <form method="GET" action="{{ url_for('home', username=username) }}" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search posts...">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+
+        <!-- Create Post Form -->
+        <div class="card mb-5 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Create a New Post</h5>
+                <form method="POST" action="{{ url_for('posts.create_post') }}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input type="hidden" class="form-control" id="user_id" name="user_id" value="{{ user.id }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="text_content" class="form-label">Text</label>
+                        <textarea class="form-control" id="text_content" name="text_content" rows="3" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image (optional)</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="visibility" class="form-label">Visibility</label>
+                        <select class="form-select" id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                            <option value="friends-only">Friends Only</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Post</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Posts List -->
+        {% if posts %}
+            {% for post in posts %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Posted by User #{{ post.user_id }} · 
+                            <small>{{ post.created_at }}</small> · 
+                            <span class="badge bg-secondary">{{ post.visibility }}</span>
+                        </h6>
+
+                        {% if post.image %}
+                            <img src="data:image/png;base64,{{ post.image }}" class="img-fluid rounded mb-3" alt="Post Image">
+                        {% endif %}
+
+                        <p class="card-text">{{ post.text_content }}</p>
+
+                        {% if post.updated_at and post.updated_at != post.created_at %}
+                            <small class="text-muted">Edited on {{ post.updated_at }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No posts to display.</p>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
